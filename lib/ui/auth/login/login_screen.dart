@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../home/home_screen/widget/home_screen_view.dart';
 import '../../utils/dialog_utils.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -146,6 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           horizontal: 165.w, vertical: 20.h)),
                                   onPressed: () {
                                     viewModel.login();
+                                    Navigator.of(context).pushReplacementNamed(
+                                        HomeScreenView.routeName);
                                   },
                                   child: Text(
                                     'Login',

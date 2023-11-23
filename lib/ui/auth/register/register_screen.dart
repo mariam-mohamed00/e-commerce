@@ -1,6 +1,7 @@
 import 'package:e_commerce/domain/di.dart';
 import 'package:e_commerce/ui/auth/register/cubit/register_screen_view_model.dart';
 import 'package:e_commerce/ui/auth/register/cubit/register_states.dart';
+import 'package:e_commerce/ui/home/home_screen/widget/home_screen_view.dart';
 import 'package:e_commerce/ui/utils/dialog_utils.dart';
 import 'package:e_commerce/ui/utils/my_theme.dart';
 import 'package:e_commerce/ui/utils/text_field_item.dart';
@@ -176,6 +177,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           horizontal: 160.w, vertical: 20.h)),
                                   onPressed: () {
                                     viewModel.register();
+                                    Navigator.of(context).pushReplacementNamed(
+                                        HomeScreenView.routeName);
                                   },
                                   child: Text(
                                     'Sign Up',

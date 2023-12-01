@@ -1,4 +1,5 @@
 import 'dart:convert';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/model/api/api_constants.dart';
@@ -9,6 +10,8 @@ import 'package:e_commerce/data/model/response/LoginResponseDto.dart';
 import 'package:e_commerce/data/model/response/RegisterResponseDto.dart';
 import 'package:e_commerce/domain/failures.dart';
 import 'package:http/http.dart' as http;
+
+import '../response/ProductResponseDto.dart';
 
 class ApiManager {
   ApiManager._();
@@ -108,6 +111,26 @@ class ApiManager {
         return Right(categoryOrBrandResponse);
       } else {
         return Left(ServerError(errorMessage: categoryOrBrandResponse.message));
+      }
+    } else {
+      return left(
+          NetworkError(errorMessage: 'Please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, ProductResponseDto>> getProducts() async {
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.getAllProductsApi);
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      var response = await http.get(url);
+      var ProductResponse =
+          ProductResponseDto.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(ProductResponse);
+      } else {
+        return Left(ServerError(errorMessage: ProductResponse.message));
       }
     } else {
       return left(

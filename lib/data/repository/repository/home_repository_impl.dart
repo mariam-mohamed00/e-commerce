@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/domain/entity/CategoryOrBrandResponseEntity.dart';
+import 'package:e_commerce/domain/entity/ProductResponseEntity.dart';
 import 'package:e_commerce/domain/failures.dart';
 import 'package:e_commerce/domain/repository/data_source/home_remote_data_source.dart';
 import 'package:e_commerce/domain/repository/repository/home_repository_contract.dart';
@@ -17,5 +18,10 @@ class HomeRepositoryImpl extends HomeRepositoryContract {
   @override
   Future<Either<Failures, CategoryOrBrandResponseEntity>> getBrands() {
     return remoteDataSource.getBrands();
+  }
+
+  @override
+  Future<Either<Failures, ProductResponseEntity>> getProducts() {
+    return remoteDataSource.getProducts();
   }
 }

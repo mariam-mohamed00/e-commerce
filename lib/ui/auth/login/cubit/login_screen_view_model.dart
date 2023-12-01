@@ -6,7 +6,6 @@ import '../../../../domain/use_case/login_use_case.dart';
 
 class LoginScreenViewModel extends Cubit<LoginStates> {
   LoginUseCase loginUseCase;
-
   LoginScreenViewModel({required this.loginUseCase})
       : super(LoginInitialState());
 
@@ -26,6 +25,8 @@ class LoginScreenViewModel extends Cubit<LoginStates> {
       either.fold((l) {
         emit(LoginErrorState(errorMessage: l.errorMessage));
       }, (r) {
+        // Navigator.of(context).pushReplacementNamed(
+        //     HomeScreenView.routeName);
         emit(LoginSuccessState(resultEntity: r));
       });
     }

@@ -1,6 +1,7 @@
 import 'package:e_commerce/ui/auth/login/login_screen.dart';
 import 'package:e_commerce/ui/auth/register/register_screen.dart';
 import 'package:e_commerce/ui/home/home_screen/widget/home_screen_view.dart';
+import 'package:e_commerce/ui/home/product_details/product_details_view.dart';
 import 'package:e_commerce/ui/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
               LoginScreen.routeName: (context) => LoginScreen(),
               RegisterScreen.routeName: (context) => RegisterScreen(),
               HomeScreenView.routeName: (context) => HomeScreenView(),
+              ProductDetailsView.routeName: (context) => ProductDetailsView(),
             },
           );
         });

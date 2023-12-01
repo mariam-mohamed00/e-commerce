@@ -11,7 +11,6 @@ class RegisterScreenViewModel extends Cubit<RegisterStates> {
       : super(RegisterInitialState());
 
   /// hold data, handle logic
-
   var formKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
   var passwordController = TextEditingController();

@@ -36,6 +36,7 @@ class TextFieldItem extends StatelessWidget {
           padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
           child: TextFormField(
             obscureText: isObscure,
+            controller: controller,
             validator: validator,
             keyboardType: KeyboardType,
             decoration: InputDecoration(

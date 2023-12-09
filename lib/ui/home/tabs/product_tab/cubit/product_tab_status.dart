@@ -1,3 +1,4 @@
+import 'package:e_commerce/domain/entity/AddToCartResponseEntity.dart';
 import 'package:e_commerce/domain/failures.dart';
 
 import '../../../../../domain/entity/ProductResponseEntity.dart';
@@ -11,7 +12,6 @@ class ProductTabLoadingStat extends ProductTabStates {
 
   ProductTabLoadingStat({required this.loadingMessage});
 }
-
 class ProductTabErrorStat extends ProductTabStates {
   Failures error;
 
@@ -22,4 +22,22 @@ class ProductTabSuccessStat extends ProductTabStates {
   ProductResponseEntity productResponseEntity;
 
   ProductTabSuccessStat({required this.productResponseEntity});
+}
+
+class AddToCartLoadingStat extends ProductTabStates {
+  String? loadingMessage;
+
+  AddToCartLoadingStat({required this.loadingMessage});
+}
+
+class AddToCartErrorStat extends ProductTabStates {
+  Failures error;
+
+  AddToCartErrorStat({required this.error});
+}
+
+class AddToCartSuccessStat extends ProductTabStates {
+  AddToCartResponseEntity addToCartResponseEntity;
+
+  AddToCartSuccessStat({required this.addToCartResponseEntity});
 }

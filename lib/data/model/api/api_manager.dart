@@ -5,10 +5,13 @@ import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/model/api/api_constants.dart';
 import 'package:e_commerce/data/model/request/LoginRequest.dart';
 import 'package:e_commerce/data/model/request/RegisterRequest.dart';
+import 'package:e_commerce/data/model/response/AddToCartResponseDto.dart';
 import 'package:e_commerce/data/model/response/CategoryOrBrandResponseDto.dart';
+import 'package:e_commerce/data/model/response/GetCartResponseDto.dart';
 import 'package:e_commerce/data/model/response/LoginResponseDto.dart';
 import 'package:e_commerce/data/model/response/RegisterResponseDto.dart';
 import 'package:e_commerce/domain/failures.dart';
+import 'package:e_commerce/ui/utils/shared_preference_utils.dart';
 import 'package:http/http.dart' as http;
 
 import '../response/ProductResponseDto.dart';
@@ -66,6 +69,8 @@ class ApiManager {
       var loginResponse = LoginResponseDto.fromJson(jsonDecode(response.body));
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
+        SharedPreferenceUtils.saveData(
+            key: 'Token', value: loginResponse.token);
         return Right(loginResponse);
       } else {
         return Left(ServerError(errorMessage: loginResponse.message));
@@ -131,6 +136,108 @@ class ApiManager {
         return Right(ProductResponse);
       } else {
         return Left(ServerError(errorMessage: ProductResponse.message));
+      }
+    } else {
+      return left(
+          NetworkError(errorMessage: 'Please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, AddToCartResponseDto>> addToCart(
+      String productId) async {
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.addToCartApi);
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      var token = SharedPreferenceUtils.getData(key: 'Token');
+      var response = await http.post(url,
+          body: {'productId': productId}, headers: {'token': token.toString()});
+      var addToCartResponse =
+          AddToCartResponseDto.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(addToCartResponse);
+      } else if (response.statusCode == 401) {
+        return Left(ServerError(errorMessage: addToCartResponse.message));
+      } else {
+        return Left(ServerError(errorMessage: addToCartResponse.message));
+      }
+    } else {
+      return left(
+          NetworkError(errorMessage: 'Please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetCartResponseDto>> getCart() async {
+    Uri url = Uri.https(ApiConstants.baseUrl, ApiConstants.addToCartApi);
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      var token = SharedPreferenceUtils.getData(key: 'Token');
+      var response = await http.get(url, headers: {'token': token.toString()});
+      var getCartResponse =
+          GetCartResponseDto.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(getCartResponse);
+      } else if (response.statusCode == 401) {
+        return Left(ServerError(errorMessage: getCartResponse.message));
+      } else {
+        return Left(ServerError(errorMessage: getCartResponse.message));
+      }
+    } else {
+      return left(
+          NetworkError(errorMessage: 'Please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetCartResponseDto>> deleteItemInCart(
+      String productId) async {
+    Uri url = Uri.https(
+        ApiConstants.baseUrl, '${ApiConstants.addToCartApi}/$productId');
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      var token = SharedPreferenceUtils.getData(key: 'Token');
+      var response =
+          await http.delete(url, headers: {'token': token.toString()});
+      var deleteItemInCart =
+          GetCartResponseDto.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(deleteItemInCart);
+      } else if (response.statusCode == 401) {
+        return Left(ServerError(errorMessage: deleteItemInCart.message));
+      } else {
+        return Left(ServerError(errorMessage: deleteItemInCart.message));
+      }
+    } else {
+      return left(
+          NetworkError(errorMessage: 'Please check internet connection'));
+    }
+  }
+
+  Future<Either<Failures, GetCartResponseDto>> updateCountInCart(
+      String productId, int count) async {
+    Uri url = Uri.https(
+        ApiConstants.baseUrl, '${ApiConstants.addToCartApi}/$productId');
+    final connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi) {
+      var token = SharedPreferenceUtils.getData(key: 'Token');
+      var response = await http.put(url,
+          headers: {'token': token.toString()}, body: {'count': '$count'});
+      var updateCountInCartResponse =
+          GetCartResponseDto.fromJson(jsonDecode(response.body));
+
+      if (response.statusCode >= 200 && response.statusCode < 300) {
+        return Right(updateCountInCartResponse);
+      } else if (response.statusCode == 401) {
+        return Left(
+            ServerError(errorMessage: updateCountInCartResponse.message));
+      } else {
+        return Left(
+            ServerError(errorMessage: updateCountInCartResponse.message));
       }
     } else {
       return left(

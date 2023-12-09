@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce/data/model/api/api_manager.dart';
+import 'package:e_commerce/domain/entity/AddToCartResponseEntity.dart';
 import 'package:e_commerce/domain/entity/CategoryOrBrandResponseEntity.dart';
 import 'package:e_commerce/domain/entity/ProductResponseEntity.dart';
 import 'package:e_commerce/domain/failures.dart';
@@ -34,6 +35,17 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<Either<Failures, ProductResponseEntity>> getProducts() async {
     var either = await apiManager.getProducts();
+    return either.fold((l) {
+      return Left(Failures(errorMessage: l.errorMessage));
+    }, (r) {
+      return Right(r);
+    });
+  }
+
+  @override
+  Future<Either<Failures, AddToCartResponseEntity>> addToCart(
+      String productId) async {
+    var either = await apiManager.addToCart(productId);
     return either.fold((l) {
       return Left(Failures(errorMessage: l.errorMessage));
     }, (r) {

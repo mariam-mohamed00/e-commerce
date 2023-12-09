@@ -36,7 +36,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(context, 'Register Successfully',
               title: 'Success', posActionName: 'Ok');
+          Navigator.of(context).pushReplacementNamed(HomeScreenView.routeName);
         }
+        // Navigator.of(context).pushReplacementNamed(HomeScreenView.routeName);
       },
       child: Scaffold(
         body: Container(
@@ -177,8 +179,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           horizontal: 160.w, vertical: 20.h)),
                                   onPressed: () {
                                     viewModel.register();
-                                    Navigator.of(context).pushReplacementNamed(
-                                        HomeScreenView.routeName);
+                                    // Navigator.of(context).pushReplacementNamed(
+                                    //     HomeScreenView.routeName);
                                   },
                                   child: Text(
                                     'Sign Up',

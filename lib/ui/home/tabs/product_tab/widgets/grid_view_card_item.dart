@@ -1,3 +1,4 @@
+import 'package:e_commerce/ui/home/tabs/product_tab/cubit/product_tab_view_model.dart';
 import 'package:e_commerce/ui/utils/my_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -107,7 +108,10 @@ class GridViewCardItem extends StatelessWidget {
                   flex: 1,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    ProductTabViewModel.get(context)
+                        .addToCart(productEntity.id ?? '');
+                  },
                   splashColor: Colors.transparent,
                   child: Icon(
                     Icons.add_circle,

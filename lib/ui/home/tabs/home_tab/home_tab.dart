@@ -1,7 +1,9 @@
 import 'package:e_commerce/domain/di.dart';
+import 'package:e_commerce/ui/auth/login/login_screen.dart';
 import 'package:e_commerce/ui/home/tabs/home_tab/cubit/home_tab_status.dart';
 import 'package:e_commerce/ui/home/tabs/home_tab/cubit/home_tab_view_model.dart';
 import 'package:e_commerce/ui/utils/my_theme.dart';
+import 'package:e_commerce/ui/utils/shared_preference_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,9 +35,24 @@ class HomeTab extends StatelessWidget {
                 SizedBox(
                   height: 10.h,
                 ),
-                Image.asset(
-                  'assets/images/route_logo.png',
-                  color: MyTheme.primaryColor,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Image.asset(
+                      'assets/images/route_logo.png',
+                      color: MyTheme.primaryColor,
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          SharedPreferenceUtils.removeData(key: 'Token');
+                          Navigator.pushReplacementNamed(
+                              context, LoginScreen.routeName);
+                        },
+                        icon: Icon(
+                          Icons.logout_rounded,
+                          color: MyTheme.primaryColor,
+                        ))
+                  ],
                 ),
                 SizedBox(
                   height: 18.h,

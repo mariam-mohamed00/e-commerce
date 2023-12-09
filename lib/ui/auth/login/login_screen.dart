@@ -3,6 +3,7 @@ import 'package:e_commerce/ui/auth/login/cubit/login_screen_view_model.dart';
 import 'package:e_commerce/ui/auth/login/cubit/login_states.dart';
 import 'package:e_commerce/ui/auth/register/register_screen.dart';
 import 'package:e_commerce/ui/utils/my_theme.dart';
+import 'package:e_commerce/ui/utils/shared_preference_utils.dart';
 import 'package:e_commerce/ui/utils/text_field_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,11 @@ class _LoginScreenState extends State<LoginScreen> {
           DialogUtils.hideLoading(context);
           DialogUtils.showMessage(context, 'Register Successfully',
               title: 'Success', posActionName: 'Ok');
+          SharedPreferenceUtils.saveData(
+              key: 'Token', value: state.resultEntity.token);
+          Navigator.of(context).pushReplacementNamed(HomeScreenView.routeName);
         }
+        // Navigator.of(context).pushReplacementNamed(HomeScreenView.routeName);
       },
       child: Scaffold(
         body: Container(
@@ -147,8 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                           horizontal: 165.w, vertical: 20.h)),
                                   onPressed: () {
                                     viewModel.login();
-                                    Navigator.of(context).pushReplacementNamed(
-                                        HomeScreenView.routeName);
+                                    // Navigator.of(context).pushReplacementNamed(
+                                    //     HomeScreenView.routeName);
                                   },
                                   child: Text(
                                     'Login',
